@@ -35,4 +35,16 @@ class AdminController extends Controller
         // Redirect back to the user management page with a success message
         return redirect()->route('admin.manageUsers')->with('success', 'User role updated successfully!');
     }
+
+    public function someFunction()
+{
+    if (auth()->user()->hasRole('admin')) {
+        // Perform admin actions
+    }
+
+    if (auth()->user()->can('edit articles')) {
+        // Perform edit actions
+    }
+}
+
 }

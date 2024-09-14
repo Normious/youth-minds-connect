@@ -57,4 +57,16 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function someFunction()
+{
+    if (auth()->user()->hasRole('admin')) {
+        // Perform admin actions
+    }
+
+    if (auth()->user()->can('edit articles')) {
+        // Perform edit actions
+    }
+}
+
 }

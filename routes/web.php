@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 Route::get('/', function () {
     return view('welcome');
@@ -109,4 +111,14 @@ Route::middleware(['admin'])->group(function () {
     Route::delete('/admin/calendar/delete/{id}', [CalendarController::class, 'destroy'])->name('admin.calendar.delete');
 });
 
+//Spatie
+Route::get('/create-role', function () {
+    $role = Role::create(['name' => 'admin']);
+    $permission = Permission::create(['name' => 'edit articles']);
 
+    $role->givePermissionTo($permission);
+    $user = Auth::user();
+    $user->assignRole('admin');
+
+    return 'Role and permission assigned!';
+});
