@@ -5,7 +5,7 @@
 @section('content')
 <br> <br><br><br>
   <div class="hero">
-
+{{ $events }}
     <div id="calendar"></div>
 
   </div>
@@ -17,7 +17,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
   <script src="{{ asset('js/evo-calendar.min.js') }}"></script>
 
-  <script>
+  {{-- <script>
     $(document).ready(function () {
       $('#calendar').evoCalendar({
 
@@ -44,5 +44,19 @@
 
       })
     })
-  </script>
+  </script> --}}
+  <script>
+    $(document).ready(function () {
+        // Parse Laravel data into JavaScript
+        var eventsData = <?php echo json_encode($events); ?>;
+
+        console.log(eventsData);
+
+        $('#calendar').evoCalendar({
+            theme: 'Midnight Blue',
+            calendarEvents: eventsData
+        });
+    });
+</script>
+
 @endsection

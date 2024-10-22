@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\EventsController;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
@@ -22,13 +23,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 Route::get('/home', function () {
-  return view('home');
+    return view('home');
 })->name('home');
 
 // Add routes for other pages
@@ -36,15 +37,18 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
-Route::get('/calendar', function () {
-    return view('calendar');
-})->name('calendar');
+// Route::get('/calendar', function () {
+//     return view('calendar');
+// })->name('calendar');
+
+
+Route::get('/calendar', [EventsController::class, 'index'])->name('calendar');
 
 // Continue adding routes for other pages
 
 Route::get('/contact', function () {
     return view('contact');
-})->name('contact');    
+})->name('contact');
 
 Route::get('/feedback', function () {
     return view('feedback');
@@ -98,19 +102,8 @@ Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth'
 //User Roles
 // Admin routes
 Route::middleware(['admin'])->group(function () {
-  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin/dashboard');
-  Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
-  Route::post('/admin/users/{user}/update-role', [AdminController::class, 'updateUserRole'])->name('admin.updateUserRole');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin/dashboard');
+    Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
+    Route::post('/admin/users/{user}/update-role', [AdminController::class, 'updateUserRole'])->name('admin.updateUserRole');
 });
 
-//Spatie
-Route::get('/create-role', function () {
-    $role = Role::create(['name' => 'admin']);
-    $permission = Permission::create(['name' => 'edit articles']);
-
-    $role->givePermissionTo($permission);
-    $user = Auth::user();
-    $user->assignRole('admin');
-
-    return 'Role and permission assigned!';
-});
