@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalendarController;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -100,15 +101,6 @@ Route::middleware(['admin'])->group(function () {
   Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin/dashboard');
   Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
   Route::post('/admin/users/{user}/update-role', [AdminController::class, 'updateUserRole'])->name('admin.updateUserRole');
-});
-
-
-//Calendar
-Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/calendar', [CalendarController::class, 'index'])->name('admin.calendar');
-    Route::post('/admin/calendar/add', [CalendarController::class, 'store'])->name('admin.calendar.add');
-    Route::post('/admin/calendar/update/{id}', [CalendarController::class, 'update'])->name('admin.calendar.update');
-    Route::delete('/admin/calendar/delete/{id}', [CalendarController::class, 'destroy'])->name('admin.calendar.delete');
 });
 
 //Spatie
