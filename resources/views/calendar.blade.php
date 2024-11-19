@@ -5,7 +5,6 @@
 @section('content')
 <br> <br><br><br>
   <div class="hero">
-{{ $events }}
     <div id="calendar"></div>
 
   </div>

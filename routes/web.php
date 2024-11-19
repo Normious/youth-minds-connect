@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\EventsController;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
+use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CalendarController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -107,3 +108,12 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/users/{user}/update-role', [AdminController::class, 'updateUserRole'])->name('admin.updateUserRole');
 });
 
+// Chat
+Route::get('/chat/{conversation}', [ChatController::class, 'showChat'])->name('chat.show');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat/fetch/{conversation}', [ChatController::class, 'fetchMessages'])->name('chat.fetch');
+
+
+// Events
+Route::get('/dashboard/events/create', [EventsController::class, 'create'])->name('events.create');
+Route::post('/dashboard/events', [EventsController::class, 'store'])->name('events.store');
