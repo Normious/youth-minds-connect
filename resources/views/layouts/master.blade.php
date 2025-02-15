@@ -57,8 +57,6 @@
         </div>
         <br />
         <a href="{{ route('psychologist') }}">Professionals</a>
-        <a href="{{ route('feedback') }}">Feedback</a>
-        <a href="{{ route('notifications') }}">Notifications</a>
         @guest
         <a href="{{ route('login') }}">Login/Signup</a>
         @else

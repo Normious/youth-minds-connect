@@ -3,59 +3,81 @@
 @section('title', 'Professionals')
 
 @section('content')
-<div class="pro-container">
+<html>
+<head>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+  <style>
+    .card {
+      width: 18rem;
+      margin: 50px;
+    }
+    .card img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+    }
+    .card-title {
+      font-weight: bold;
+    }
+    .btn-chat {
+      margin: 20px auto;
+      display: block;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <div class="text-center my-5">
+      <h1>Meet Our Licensed Psychologists</h1>
+      <p>Our team of professionals is here to provide you with the support and guidance you need. Feel free to explore their profiles and initiate a conversation to start your journey toward better mental health.</p>
+    </div>
+    
+    <div class="row">
+      <!-- Example Psychologist 1 -->
+      <div class="col-md-4">
+        <div class="card text-center">
+          <img src="https://storage.googleapis.com/a1aa/image/YJLgtq1v65prENtomU4xryEWgCrukpzH5q2sm5MWfdWNcy2JA.jpg" alt="Profile picture placeholder" class="card-img-top" height="100" width="100"/>
+          <div class="card-body">
+            <h5 class="card-title">Dr. Sarah Adams</h5>
+            <p class="card-text">Specializes in anxiety, depression, and trauma therapy. Over 10 years of experience in mental health support.</p>
+            <a href="#" class="btn btn-outline-secondary btn-chat">Chat</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Example Psychologist 2 -->
+      <div class="col-md-4">
+        <div class="card text-center">
+          <img src="https://storage.googleapis.com/a1aa/image/YJLgtq1v65prENtomU4xryEWgCrukpzH5q2sm5MWfdWNcy2JA.jpg" alt="Profile picture placeholder" class="card-img-top" height="100" width="100"/>
+          <div class="card-body">
+            <h5 class="card-title">Dr. Michael Lee</h5>
+            <p class="card-text">Expert in cognitive behavioral therapy (CBT) for stress and anger management.</p>
+            <a href="#" class="btn btn-outline-secondary btn-chat">Chat</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Example Psychologist 3 -->
+      <div class="col-md-4">
+        <div class="card text-center">
+          <img src="https://storage.googleapis.com/a1aa/image/YJLgtq1v65prENtomU4xryEWgCrukpzH5q2sm5MWfdWNcy2JA.jpg" alt="Profile picture placeholder" class="card-img-top" height="100" width="100"/>
+          <div class="card-body">
+            <h5 class="card-title">Dr. Emily Johnson</h5>
+            <p class="card-text">Focuses on family and relationship counseling, helping clients build healthy, positive connections.</p>
+            <a href="#" class="btn btn-outline-secondary btn-chat">Chat</a>
+          </div>
+        </div>
+      </div>
 
-<div class="slide">
-
-  <div class="item" style="background-image: url(../assets/pexels-cottonbro-4098157.jpg);">
-    <div class="content">
-      <div class="name">Mrs. Smitht</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
+      <!-- Add more psychologist cards as needed -->
     </div>
   </div>
-  <div class="item" style="background-image: url(../assets/pexels-cottonbro-4098259.jpg);">
-    <div class="content">
-      <div class="name">Miss. Carter</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
-    </div>
-  </div>
-  <div class="item" style="background-image: url(../assets/pexels-cottonbro-4100482.jpg);">
-    <div class="content">
-      <div class="name">Adam</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
-    </div>
-  </div>
-  <div class="item" style="background-image: url(../assets/pexels-cottonbro-4100672.jpg);">
-    <div class="content">
-      <div class="name">Mervin Palichina</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
-    </div>
-  </div>
-  <div class="item" style="background-image: url(../assets/pexels-mart-production-7255383.jpg);">
-    <div class="content">
-      <div class="name">Gray Mafuta</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
-    </div>
-  </div>
-  <div class="item" style="background-image: url(../assets/pexels-olly-3782218.jpg);">
-    <div class="content">
-      <div class="name">Ryan Sambila</div>
-      <div class="des">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab, eum!</div>
-      <button>Contact</button>
-    </div>
-  </div>
-
-</div>
-
-<div class="button">
-  <button class="prev"><i class="fa-solid fa-arrow-left"></i></button>
-  <button class="next"><i class="fa-solid fa-arrow-right"></i></button>
-</div>
-
-</div>
+</body>
+</html>
 @endsection

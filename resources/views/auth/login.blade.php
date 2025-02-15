@@ -419,6 +419,8 @@
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
+
+        {{-- Sign-in Form --}}
         <form method="POST" action="{{ route('login') }}" class="sign-in-form">
           @csrf
           <h2 class="title">Sign in</h2>
@@ -428,7 +430,7 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="password" placeholder="Password" required minlength="8" />
           </div>
           <div>
             <label for="remember_me" class="inline-flex items-center">
@@ -436,13 +438,22 @@
               {{ __('Remember me') }}
             </label>
           </div>
-            @if (Route::has('password.request'))
+          @if ($errors->any())
+            <div class="alert alert-danger">
+              @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+              @endforeach
+            </div>
+          @endif
+          @if (Route::has('password.request'))
             <a href="{{ route('password.request') }}">
               {{ __('Forgot your password?') }}
             </a>
-            @endif
+          @endif
           <input type="submit" value="Login" class="btn solid" />
         </form>
+
+        {{-- Sign-up Form --}}
         <form method="POST" action="{{ route('register') }}" class="sign-up-form">
           @csrf
           <h2 class="title">Sign up</h2>
@@ -456,12 +467,19 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="password" placeholder="Password" required minlength="8" />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" name="password_confirmation" placeholder="Confirm Password" required />
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" required minlength="8" />
           </div>
+          @if ($errors->any())
+            <div class="alert alert-danger">
+              @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+              @endforeach
+            </div>
+          @endif
           <input type="submit" class="btn" value="Sign up" />
         </form>
       </div>
@@ -496,18 +514,19 @@
   </div>
 
   <script>
-  const sign_in_btn = document.querySelector("#sign-in-btn");
-  const sign_up_btn = document.querySelector("#sign-up-btn");
-  const container = document.querySelector(".container");
+    const sign_in_btn = document.querySelector("#sign-in-btn");
+    const sign_up_btn = document.querySelector("#sign-up-btn");
+    const container = document.querySelector(".container");
 
-  sign_up_btn.addEventListener("click", () => {
-    container.classList.add("sign-up-mode");
-  });
+    sign_up_btn.addEventListener("click", () => {
+      container.classList.add("sign-up-mode");
+    });
 
-  sign_in_btn.addEventListener("click", () => {
-    container.classList.remove("sign-up-mode");
-  });
+    sign_in_btn.addEventListener("click", () => {
+      container.classList.remove("sign-up-mode");
+    });
   </script>
 </body>
+
 
 </html>
