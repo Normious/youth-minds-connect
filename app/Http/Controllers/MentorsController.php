@@ -29,7 +29,12 @@ class MentorsController extends Controller
      */
     public function store(StoreMentorsRequest $request)
     {
-        //
+        try {
+            $mentor = Mentors::create($request->validated());
+            return response()->json(['success' => true, 'mentor' => $mentor]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Failed to create mentor'], 500);
+        }
     }
 
     /**

@@ -58,8 +58,9 @@
       <div class="navigation-item">
         <a href="{{ route('home') }}">Home</a>
         <a href="{{ route('about') }}">About</a>
+        <a href="{{ route('events') }}">Events</a>
         <br />
-        <div class="dropdown">
+        <!-- <div class="dropdown">
           <a href="#" class="dropdown-toggle">Explore
             <span class="material-symbols-outlined">expand_more</span>
           </a>
@@ -69,8 +70,8 @@
             <li><a href="{{ route('articles') }}">Articles</a></li>
           </ul>
         </div>
-        <br /><br />
-        <div class="dropdown">
+        <br /><br /> -->
+        <!-- <div class="dropdown">
           <a href="#" class="dropdown-toggle">Community
             <span class="material-symbols-outlined">expand_more</span>
           </a>
@@ -81,7 +82,7 @@
             <li><a href="{{ route('community-spotlight') }}">Community Spotlight</a></li>
           </ul>
         </div>
-        <br />
+        <br /> -->
         <a href="{{ route('psychologist') }}">Professionals</a>
         @guest
         <a href="{{ route('login') }}">Login/Signup</a>

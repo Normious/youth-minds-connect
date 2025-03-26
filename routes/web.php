@@ -11,6 +11,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DialogueController;
 use App\Http\Controllers\PublicController;
+use App\Models\Events;
+use App\Models\Mentors;
+use App\Http\Controllers\MentorsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -109,12 +112,6 @@ Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->
 Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
 
 //User Roles
-// Admin routes
-Route::middleware(['admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin/dashboard');
-    Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
-    Route::post('/admin/users/{user}/update-role', [AdminController::class, 'updateUserRole'])->name('admin.updateUserRole');
-});
 
 // Chat
 Route::get('/chat/{conversation}', [ChatController::class, 'showChat'])->name('chat.show');
@@ -123,5 +120,23 @@ Route::get('/chat/fetch/{conversation}', [ChatController::class, 'fetchMessages'
 
 
 // Events
+Route::get('/events', function () {
+  return view('events');
+})->name('events');
+
 Route::get('/dashboard/events/create', [EventsController::class, 'create'])->name('events.create');
 Route::post('/dashboard/events', [EventsController::class, 'store'])->name('events.store');
+
+Route::get('/events', function () {
+  $events = Events::orderBy('created_at', 'desc')->get();
+  return view('events', compact('events'));
+});
+
+Route::get('/events', [EventsController::class, 'showEvents'])->name('events');
+
+// Mentors
+Route::get('/mentors', function () {
+  return view('mentors');
+})->name('mentors');
+Route::get('/dashboard/mentors/create', [MentorsController::class, 'create'])->name('mentors.create');
+Route::post('/dashboard/mentors', [MentorsController::class, 'store'])->name('mentors.store');

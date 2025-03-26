@@ -4,10 +4,7 @@
 
 @section('content')
  <!-- Hero Section -->
- <section class="home">
-    <video autoplay muted loop id="video-slide">
-      <source src="5.mp4" type="video/mp4" />
-    </video>
+ <section class="about">
     <div class="content active">
       <h1>Your Mental Health is Our Priority</h1>
       <p>We Provide Support and Solutions for Mental Wellness</p>

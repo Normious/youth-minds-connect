@@ -11,7 +11,7 @@ class StoreMentorsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreMentorsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:mentors,email',
+            'number' => 'required|numeric',
+            'description' => 'nullable|string'
         ];
     }
 }

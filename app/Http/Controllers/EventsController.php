@@ -35,6 +35,12 @@ class EventsController extends Controller
     return view('calendar', ['events' => $events]);
   }
 
+  public function showEvents()
+{
+    $events = Events::all(); // Fetch all events
+    return view('events', compact('events')); // Pass events to the view
+}
+
   /**
    * Show the form for creating a new resource.
    */
