@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard/events/create', [EventsController::class, 'create'])->name('events.create');
+});
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -127,6 +131,10 @@ Route::get('/events', function () {
 Route::get('/dashboard/events/create', [EventsController::class, 'create'])->name('events.create');
 Route::post('/dashboard/events', [EventsController::class, 'store'])->name('events.store');
 
+Route::get('/dashboard/events/{event}/edit', [EventsController::class, 'edit'])->name('events.edit');
+Route::put('/dashboard/events/{event}', [EventsController::class, 'update'])->name('events.update');
+Route::delete('/dashboard/events/{event}', [EventsController::class, 'destroy'])->name('events.destroy');
+
 Route::get('/events', function () {
   $events = Events::orderBy('created_at', 'desc')->get();
   return view('events', compact('events'));
@@ -134,9 +142,9 @@ Route::get('/events', function () {
 
 Route::get('/events', [EventsController::class, 'showEvents'])->name('events');
 
+Route::get('/all-events', [EventsController::class, 'allEvents'])->name('all-events');
+
 // Mentors
-Route::get('/mentors', function () {
-  return view('mentors');
-})->name('mentors');
-Route::get('/dashboard/mentors/create', [MentorsController::class, 'create'])->name('mentors.create');
-Route::post('/dashboard/mentors', [MentorsController::class, 'store'])->name('mentors.store');
+Route::resource('mentors', MentorsController::class);
+Route::get('/all-mentors', [MentorsController::class, 'index'])->name('all-mentors');
+

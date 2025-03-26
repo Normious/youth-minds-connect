@@ -37,8 +37,14 @@ class EventsController extends Controller
 
   public function showEvents()
 {
-    $events = Events::all(); // Fetch all events
+    $events = Events::all();
     return view('events', compact('events')); // Pass events to the view
+}
+
+public function allEvents()
+{
+    $events = Events::all();
+    return view('all-events', compact('events')); // Pass events to the view
 }
 
   /**
@@ -47,6 +53,7 @@ class EventsController extends Controller
   public function create()
   {
     //
+    return view('events.create');
   }
 
   /**
@@ -64,11 +71,7 @@ class EventsController extends Controller
     ]);
 
     // Return a JSON response if AJAX request
-    return response()->json([
-      'success' => true,
-      'message' => 'Event added successfully!',
-      'event' => $event
-    ]);
+    return redirect()->route('all-events')->with('success', 'Event created successfully!');
   }
 
 
@@ -83,24 +86,36 @@ class EventsController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(Events $events)
+  public function edit(Events $event)
   {
-    //
+    return view('events.edit', compact('event'));
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(UpdateEventsRequest $request, Events $events)
+  public function update(UpdateEventsRequest $request, Events $event)
   {
-    //
+      $validated = $request->validated();
+      
+      $event->update([
+          'name' => $validated['name'],
+          'description' => $validated['description'],
+          'date_from' => $validated['date_from'],
+          'date_to' => $validated['date_to'],
+          'location' => $validated['location'],
+      ]);
+
+      return redirect()->route('events.edit', $event)
+          ->with('success', 'Event updated successfully');
   }
 
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Events $events)
+  public function destroy(Events $event)
   {
-    //
+      $event->delete();
+      return redirect()->route('all-events')->with('success', 'Event deleted successfully');
   }
 }
