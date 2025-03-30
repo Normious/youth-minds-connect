@@ -24,6 +24,7 @@ class EventsController extends Controller
         'name' => $event->name, // Use 'name' for the event title
         'date' => $event->date_from == $event->date_to ? $formattedDateFrom : [$formattedDateFrom, $formattedDateTo],
         'description' => $event->description,
+        'location' => $event->location,
         'type' => $event->type ?? 'event', // Use 'type' or default to 'event'
         'everyYear' => false // Set logic if necessary
       ];
@@ -38,6 +39,7 @@ class EventsController extends Controller
   public function showEvents()
 {
     $events = Events::all();
+    $events = Events::orderBy('created_at', 'desc')->get();
     return view('events', compact('events')); // Pass events to the view
 }
 
@@ -68,6 +70,8 @@ public function allEvents()
       'description' => $request->description,
       'date_from' => $request->date_from,
       'date_to' => $request->date_to,
+      'location' => $request->location,
+      'image' => $request->image,
     ]);
 
     // Return a JSON response if AJAX request

@@ -64,17 +64,54 @@ btns.forEach((btn, i) => {
 // })();
 
 //script for professionals
-let next = document.querySelector(".next");
-let prev = document.querySelector(".prev");
+// let next = document.querySelector(".next");
+// let prev = document.querySelector(".prev");
 
-next.addEventListener("click", function () {
-    let items = document.querySelectorAll(".item");
-    document.querySelector(".slide").appendChild(items[0]);
+// next.addEventListener("click", function () {
+//     let items = document.querySelectorAll(".item");
+//     document.querySelector(".slide").appendChild(items[0]);
+// });
+
+// prev.addEventListener("click", function () {
+//     let items = document.querySelectorAll(".item");
+//     document.querySelector(".slide").prepend(items[items.length - 1]); // here the length of items = 6
+// });
+
+
+let currentSlide = 0;
+const totalSlides = slides.length;
+let autoPlayInterval;
+
+// Function to advance to next slide
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    sliderNav(currentSlide);
+}
+
+// Add event listeners for video ended
+slides.forEach((video, index) => {
+    video.addEventListener('ended', () => {
+        nextSlide();
+    });
 });
 
-prev.addEventListener("click", function () {
-    let items = document.querySelectorAll(".item");
-    document.querySelector(".slide").prepend(items[items.length - 1]); // here the length of items = 6
+// Start auto-play
+function startAutoPlay() {
+    autoPlayInterval = setInterval(nextSlide, 5000);
+}
+
+// Initial auto-play start
+startAutoPlay();
+
+// Pause auto-play when user clicks navigation
+btns.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+        currentSlide = i;
+        sliderNav(currentSlide);
+        clearInterval(autoPlayInterval);
+        // Restart auto-play after 10 seconds of user inactivity
+        setTimeout(startAutoPlay, 10000);
+    });
 });
 
 

@@ -1558,3 +1558,104 @@ h2 {
 .chat-input button:hover {
   background-color: #003366;
 }
+
+/*Events*/
+/* .events {
+  padding: 100px 200px;
+  background-color: #fff3f3;
+  color: #333;
+} */
+
+.events h1 {
+  font-size: 3em;
+  color: midnightblue;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.events p {
+  font-size: 1.2em;
+  line-height: 1.6em;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.events-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  /* Space between cards */
+}
+
+.events-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  flex: 1 1 calc(50% - 20px);
+  /* Adjust width of each card */
+  margin-bottom: 20px;
+}
+
+.events-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.events-content {
+  padding: 15px;
+}
+
+.events-content h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.events-content p {
+  font-size: 1em;
+  color: #666;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .events {
+    padding: 20px 10px;
+  }
+
+  .events-container {
+    flex-direction: column;
+  }
+
+  .events-card {
+    flex: 1 1 100%;
+    /* Each card takes full width */
+    margin-bottom: 20px;
+  }
+
+  .events h1 {
+    font-size: 2.5em;
+  }
+
+  .events p {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .events h1 {
+    font-size: 2em;
+  }
+
+  .events p {
+    font-size: 0.9em;
+  }
+
+  .events-content h2 {
+    font-size: 1.2em;
+  }
+
+  .events-content p {
+    font-size: 0.9em;
+  }
+}

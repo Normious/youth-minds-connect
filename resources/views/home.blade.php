@@ -55,9 +55,11 @@
   </div>
 
   <div class="media-icons">
-    <a href="#"> <i class="fab fa-facebook"></i></a>
-    <a href="#"> <i class="fab fa-instagram"></i></a>
-    <a href="#"> <i class="fab fa-twitter"></i></a>
+    <a href="https://www.facebook.com/21stgenerationMw?_rdr"> <i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/21st_gen_/"> <i class="fab fa-instagram"></i></a>
+    <a href="https://x.com/21st_Gen_"> <i class="fab fa-twitter"></i></a>
+    <a href="https://www.linkedin.com/authwall?trk=gf&trkInfo=AQEAeskq1NjPmAAAAZXS9Glg94difudHILF9vv031FZmhlWF5dD_7o09hDdh4KDa2AuryvKWsKSfbOt8y8wnP3tvkpEEzgyRMwsgXrhiI1NfcHyVrZOI1Oibdyoj8nkkmZzyr8s=&original_referer=https://linktr.ee/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Ftwenty-first-generation-00ab30305%3Futm_source%3Dshare%26utm_campaign%3Dshare_via%26utm_content%3Dprofile%26utm_medium%3Dandroid_app"> <i class="fab fa-linkedin"></i></a>
+    <a href="https://www.tiktok.com/@21st_gen_"> <i class="fab fa-tiktok"></i></a>
   </div>
   <div class="slider-navigation">
     <div class="nav-btn active"></div>

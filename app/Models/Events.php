@@ -13,5 +13,5 @@ class Events extends Model
         'date_from' => 'date',
         'date_to' => 'date',
     ];
-    protected $fillable = ['name', 'description', 'date_from', 'date_to'];
+    protected $fillable = ['name', 'description', 'date_from', 'date_to', 'location', 'image'];
 }
