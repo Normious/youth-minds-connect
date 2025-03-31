@@ -17,7 +17,7 @@
             @foreach ($mentors as $mentor)
                 <div class="col-md-4">
                     <div class="text-center card">
-                        <img src="https://storage.googleapis.com/a1aa/image/YJLgtq1v65prENtomU4xryEWgCrukpzH5q2sm5MWfdWNcy2JA.jpg"
+                        <img src="https://img.freepik.com/premium-vector/young-man-face-avater-vector-illustration-design_968209-13.jpg?w=740"
                             alt="Profile picture placeholder" class="card-img-top" height="100" width="100" />
                         <div class="card-body">
                             <h5 class="card-title">{{ $mentor->name }}</h5>
@@ -34,7 +34,7 @@
 
                             @endauth
                             @guest
-                                <a href="#" class="btn btn-outline-secondary btn-chat">Login </a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-secondary btn-chat">Login </a>
                             @endguest
                         </div>
                     </div>

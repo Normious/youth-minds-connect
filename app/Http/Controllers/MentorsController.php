@@ -89,10 +89,16 @@ class MentorsController extends Controller
     public function destroy(Mentors $mentor)
     {
         try {
-            $mentor->delete();
-            return redirect()->route('mentors.index')->with('success', 'Mentor deleted successfully');
+            \DB::transaction(function () use ($mentor) {
+                // Delete the associated user first
+                \App\Models\User::where('id', $mentor->user_id)->delete();
+                // Then delete the mentor
+                $mentor->delete();
+            });
+            
+            return redirect()->route('mentors.index')->with('success', 'Mentor and associated user deleted successfully');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to delete mentor');
+            return back()->with('error', 'Failed to delete mentor: ' . $e->getMessage());
         }
     }
 }

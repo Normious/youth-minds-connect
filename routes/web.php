@@ -51,8 +51,9 @@ Route::get('/about', function () {
 //     return view('calendar');
 // })->name('calendar');
 
-
-Route::get('/calendar', [EventsController::class, 'index'])->name('calendar');
+Route::middleware('auth')->group(function () {
+    Route::get('/calendar', [EventsController::class, 'index'])->name('calendar');
+});
 
 // Continue adding routes for other pages
 
