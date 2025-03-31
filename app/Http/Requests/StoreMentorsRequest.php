@@ -23,9 +23,10 @@ class StoreMentorsRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:mentors,email',
+            'email' => 'required|email|unique:mentors,email|unique:users,email',
             'number' => 'required|numeric',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'password' => 'required|string|min:8'
         ];
     }
 }

@@ -46,6 +46,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function mentor()
+    {
+        return $this->hasOne(Mentors::class);
+    }
+
     public function chats(){
         return $this->hasMany(Chat::class);
     }

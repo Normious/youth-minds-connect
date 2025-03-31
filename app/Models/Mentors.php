@@ -9,5 +9,17 @@ class Mentors extends Model
 {
     /** @use HasFactory<\Database\Factories\MentorsFactory> */
     use HasFactory;
-    protected $guarded = [];
+    
+    protected $fillable = [
+        'name',
+        'email',
+        'number',
+        'description',
+        'user_id'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

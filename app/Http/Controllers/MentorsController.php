@@ -31,10 +31,26 @@ class MentorsController extends Controller
     public function store(StoreMentorsRequest $request)
     {
         try {
-            $mentor = Mentors::create($request->validated());
+            // Create user with mentor role first
+            $user = \App\Models\User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password)
+            ]);
+            $user->assignRole('mentor');
+
+            // Create mentor profile and link it to the user
+            $mentor = Mentors::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'number' => $request->number,
+                'description' => $request->description,
+                'user_id' => $user->id
+            ]);
+
             return redirect()->route('all-mentors')->with('success', 'Mentor created successfully');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to create mentor');
+            return back()->with('error', 'Failed to create mentor: ' . $e->getMessage());
         }
     }
 

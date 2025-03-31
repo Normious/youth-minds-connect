@@ -4,10 +4,10 @@
 
 @section('content')
 <section class="home">
-  <video class="video-slide  active" src="{{ asset('assets/3.mp4') }}" autoplay muted loop></video>
-  <video class="video-slide" src="{{ asset('assets/4.mp4') }}" autoplay muted loop></video>
-  <video class="video-slide" src="{{ asset('assets/1.mp4') }}" autoplay muted loop></video>
-  <video class="video-slide" src="{{ asset('assets/2.mp4') }}" autoplay muted loop></video>
+  <video class="video-slide  active" src="https://videos.pexels.com/video-files/4101244/4101244-uhd_2732_1440_25fps.mp4" autoplay muted loop></video>
+  <video class="video-slide" src="https://videos.pexels.com/video-files/7424128/7424128-uhd_2560_1440_30fps.mp4" autoplay muted loop></video>
+  <video class="video-slide" src="https://videos.pexels.com/video-files/4098651/4098651-uhd_2732_1440_25fps.mp4" autoplay muted loop></video>
+  <video class="video-slide" src="https://videos.pexels.com/video-files/4101227/4101227-uhd_2732_1440_25fps.mp4" autoplay muted loop></video>
 
   <div class="content  active">
     <h1>Life<br />Problems</h1>
