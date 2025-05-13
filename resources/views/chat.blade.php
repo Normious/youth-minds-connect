@@ -33,28 +33,21 @@
             <ul class="m-b-0">
 
               @foreach ($allchats as $chats)
-
               @if ($chats->user_id == Auth::user()->id)
               <li class="clearfix">
-                <div class="float-right message other-message"> {{ $chats->message}} <br>
+                <div class="message my-message">
+                  {{ $chats->message}} <br>
                   <span style="font-size:12px;">{{ $chats->created_at->diffForHumans() }}</span>
                 </div>
               </li>
-
               @else
               <li class="clearfix">
-                <div class="message my-message">{{ $chats->message }} <br>
+                <div class="message other-message">
+                  {{ $chats->message }} <br>
                   <span style="font-size:12px;">{{ $chats->created_at->diffForHumans() }}</span>
-
                 </div>
               </li>
-
               @endif
-
-
-
-
-
               @endforeach
 
             </ul>
@@ -242,32 +235,50 @@
   }
 
   .chat .chat-history .my-message {
-    background: #efefef
-  }
+    background: #007bff;
+    color: white;
+    float: right;
+    margin-right: 15px;
+}
 
-  .chat .chat-history .my-message:after {
+.chat .chat-history .my-message:after {
     bottom: 100%;
-    left: 30px;
+    right: 20px;
+    left: auto;
     border: solid transparent;
     content: " ";
     height: 0;
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-bottom-color: #efefef;
+    border-bottom-color: #007bff;
     border-width: 10px;
     margin-left: -10px
-  }
+}
 
-  .chat .chat-history .other-message {
+.chat .chat-history .other-message {
     background: #e8f1f3;
-    text-align: right
-  }
+    float: left;
+    margin-left: 15px;
+}
 
-  .chat .chat-history .other-message:after {
+.chat .chat-history .other-message:after {
     border-bottom-color: #e8f1f3;
-    left: 93%
-  }
+    left: 20px;
+    right: auto;
+}
+
+.chat .chat-history ul li {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.chat .chat-history span[style*="font-size:12px"] {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+    font-size: 0.8rem !important;
+}
 
   .chat .chat-message {
     padding: 20px

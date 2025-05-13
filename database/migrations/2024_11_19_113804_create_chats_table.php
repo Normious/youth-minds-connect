@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('mentor_id');
-            $table->boolean('ative');
+            $table->boolean('active');
             $table->timestamps();
         });
     }

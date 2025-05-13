@@ -149,3 +149,5 @@ Route::get('/all-events', [EventsController::class, 'allEvents'])->name('all-eve
 Route::resource('mentors', MentorsController::class);
 Route::get('/all-mentors', [MentorsController::class, 'index'])->name('all-mentors');
 
+
+Route::get('/mentor/chat/{chat}', [PublicController::class, 'mentorChat'])->name('mentor.chat');

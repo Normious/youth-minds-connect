@@ -16,4 +16,9 @@ class Chat extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function mentor()
+    {
+        return $this->belongsTo(Mentors::class);
+    }
 }
