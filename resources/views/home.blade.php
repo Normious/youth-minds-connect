@@ -629,6 +629,6 @@
     });
 </script>
 @endsection
-@section('stlyes')
+@section('styles')
 
 @endsection

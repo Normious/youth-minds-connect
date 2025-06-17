@@ -450,7 +450,11 @@
               {{ __('Forgot your password?') }}
             </a>
           @endif
-          <input type="submit" value="Login" class="btn solid" />
+          <div class="flex items-center justify-end mt-4">
+            <x-primary-button class="ms-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+          </div>
         </form>
 
         {{-- Sign-up Form --}}
@@ -480,7 +484,11 @@
               @endforeach
             </div>
           @endif
-          <input type="submit" class="btn" value="Sign up" />
+          <div class="flex items-center justify-end mt-4">
+            <x-primary-button class="ms-3">
+                {{ __('Sign Up') }}
+            </x-primary-button>
+          </div>
         </form>
       </div>
     </div>
@@ -492,9 +500,9 @@
           <p>
             Then please click this button and enter your details to register and join our community.
           </p>
-          <button class="btn transparent" id="sign-up-btn">
-            Sign up
-          </button>
+          <x-secondary-button id="sign-up-btn">
+            {{ __('Sign up') }}
+          </x-secondary-button>
         </div>
         <img src="img/log.svg" class="image" alt="" />
       </div>
@@ -504,9 +512,9 @@
           <p>
             If you already have an account then click this button and please enter your details to login.
           </p>
-          <button class="btn transparent" id="sign-in-btn">
-            Sign in
-          </button>
+          <x-secondary-button id="sign-in-btn">
+            {{ __('Sign in') }}
+          </x-secondary-button>
         </div>
         <img src="img/register.svg" class="image" alt="" />
       </div>

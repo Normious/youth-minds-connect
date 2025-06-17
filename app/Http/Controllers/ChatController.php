@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
 use App\Models\Message;
-use App\Models\Conversation;
+use App\Events\ChatMessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Mail\Events\MessageSent;
 
 class ChatController extends Controller
 {
@@ -18,7 +18,7 @@ class ChatController extends Controller
      */
     public function showChat($conversationId)
     {
-        $conversation = Conversation::findOrFail($conversationId);
+        $conversation = Chat::findOrFail($conversationId);
         
         // Fetch previous messages for the conversation
         $messages = Message::where('conversation_id', $conversationId)
@@ -41,7 +41,7 @@ class ChatController extends Controller
     {
         $request->validate([
             'message' => 'required|string',
-            'conversation_id' => 'required|integer|exists:conversations,id',
+            'conversation_id' => 'required|integer|exists:chats,id',
         ]);
 
         // Create a new message
@@ -52,7 +52,7 @@ class ChatController extends Controller
         $message->save();
 
         // Broadcast the message to other users in the conversation
-        broadcast(new MessageSent($message))->toOthers();
+        broadcast(new ChatMessageSent($message))->toOthers();
 
         return response()->json(['status' => 'Message sent successfully']);
     }

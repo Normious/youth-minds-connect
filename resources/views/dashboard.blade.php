@@ -11,9 +11,9 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3>{{ __("You're logged in!") }}</h3>
                     <br>
-                    <button class="btn btn-primary" style="background-color: blue;">
-                        <a href="home" style="color: white;"> {{ __('Go to Home') }}</a>
-                    </button>
+                    <a href="{{ route('home') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                        {{ __('Go to Home') }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -23,18 +23,16 @@
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <button class="btn btn-primary" style="background-color: blue;">
-                        <a href="all-events" style="color: white;"> {{ __('All Events') }}</a>
-                    </button>
-
-                    <button class="btn btn-primary" style="background-color: blue;">
-                        <a href="all-mentors" style="color: white;"> {{ __('All Mentors') }}</a>
-                    </button>
-
-                    <button class="btn btn-primary" style="background-color: blue;">
-                        <a href="home" style="color: white;"> {{ __('Go to Home') }}</a>
-                    </button>
+                <div class="p-6 text-gray-900 dark:text-gray-100 space-x-4">
+                    <a href="{{ route('all-events') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                        {{ __('All Events') }}
+                    </a>
+                    <a href="{{ route('all-mentors') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                        {{ __('All Mentors') }}
+                    </a>
+                    <a href="{{ route('home') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                        {{ __('Go to Home') }}
+                    </a>
                 </div>
             </div>
         </div>
