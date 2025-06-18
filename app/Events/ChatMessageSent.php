@@ -2,41 +2,71 @@
 
 namespace App\Events;
 
-use App\Models\Message;
+use App\Models\Dialogue; // Changed from App\Models\Message
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow; // Or ShouldBroadcast
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChatMessageSent implements ShouldBroadcastNow
+class ChatMessageSent implements ShouldBroadcastNow // Or ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public Message $message;
+    public Dialogue $dialogue;
 
     /**
      * Create a new event instance.
-     *
-     * @param \App\Models\Message $message
+     * @param \App\Models\Dialogue $dialogue
      * @return void
      */
-    public function __construct(Message $message)
+    public function __construct(Dialogue $dialogue)
     {
-        $this->message = $message;
+        $this->dialogue = $dialogue;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        // Assuming 'conversation_id' is the field on the Message model
-        // that links to the Chat model (representing the conversation).
-        return new PrivateChannel('chat.' . $this->message->conversation_id);
+        return [
+            new PrivateChannel('chat.' . $this->dialogue->chat_id),
+        ];
     }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array<string, mixed>
+     */
+    public function broadcastWith(): array
+    {
+        return [
+            'id' => $this->dialogue->id,
+            'content' => $this->dialogue->message, // Assumes 'message' field holds the text content
+            'chat_id' => $this->dialogue->chat_id,
+            'user_id' => $this->dialogue->user_id,
+            'created_at' => $this->dialogue->created_at->toIso8601String(),
+            // Example for including user data if relationship exists:
+            // 'user' => $this->dialogue->user ? [
+            //    'id' => $this->dialogue->user->id,
+            //    'name' => $this->dialogue->user->name,
+            // ] : null,
+        ];
+    }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    // public function broadcastAs(): string
+    // {
+    //     return 'chat.message.sent'; // Optional: if you want a custom event name on client-side
+    // }
 }

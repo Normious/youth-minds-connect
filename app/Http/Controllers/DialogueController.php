@@ -6,6 +6,7 @@ use App\Models\Dialogue;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreDialogueRequest;
 use App\Http\Requests\UpdateDialogueRequest;
+use App\Events\ChatMessageSent; // Add this
 
 class DialogueController extends Controller
 {
@@ -30,12 +31,15 @@ class DialogueController extends Controller
      */
     public function store(StoreDialogueRequest $request)
     {
-        Dialogue::create($this->validateRequest());
+        // The validateRequest() method already ensures 'chat_id', 'message', 'user_id' exist.
+        $dialogue = Dialogue::create($this->validateRequest());
 
+        // Broadcast the new message event
+        broadcast(new ChatMessageSent($dialogue))->toOthers();
 
-        // Alert::toast('Successfully added an organization ', 'success');
+        // Alert::toast('Successfully added an organization ', 'success'); // Original line
 
-        return  redirect()->back();
+        return redirect()->back(); // Current behavior, might be changed if using AJAX fully
     }
 
     private function validateRequest()
