@@ -2,6 +2,10 @@
 
 return [
 
+
+    App\Providers\BroadcastServiceProvider::class,
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

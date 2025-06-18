@@ -1,87 +1,53 @@
 <x-app-layout>
-    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-                            <h2 class="text-2xl font-semibold mb-4 sm:mb-0">Manage Mentors</h2>
-                            <a href="{{ route('mentors.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded whitespace-nowrap">
-                                Add New Mentor
-                            </a>
-                        </div>
+@if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-semibold">Manage Mentors</h2>
+                        <a href="{{ route('mentors.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Add New Mentor
+                        </a>
+                    </div>
 
-                        <!-- Responsive container for the list/table -->
-                        <div class="overflow-x-auto">
-                            <!-- On small screens, this will be a list of cards. On md and up, a table. -->
-                            <div class="space-y-4 md:hidden"> <!-- Visible only on small screens -->
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($mentors as $mentor)
-                                    <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                        <div class="mb-2">
-                                            <strong class="text-gray-700">Name:</strong> {{ $mentor->name }}
-                                        </div>
-                                        <div class="mb-2">
-                                            <strong class="text-gray-700">Email:</strong> {{ $mentor->email }}
-                                        </div>
-                                        <div class="mb-2">
-                                            <strong class="text-gray-700">Phone:</strong> {{ $mentor->number }}
-                                        </div>
-                                        <div class="mb-2">
-                                            <strong class="text-gray-700">Description:</strong>
-                                            <p class="text-sm text-gray-600">{{ $mentor->description }}</p>
-                                        </div>
-                                        <div class="mt-4 flex space-x-3">
-                                            <a href="{{ route('mentors.edit', $mentor) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <form action="{{ route('mentors.destroy', $mentor) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this mentor?');">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->email }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->number }}</td>
+                                        <td class="px-6 py-4">{{ $mentor->description }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="{{ route('mentors.edit', $mentor) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                            <form action="{{ route('mentors.destroy', $mentor) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this mentor?')">
                                                     Delete
                                                 </button>
                                             </form>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <table class="min-w-full table-auto hidden md:table"> <!-- Hidden on small, table on md+ -->
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($mentors as $mentor)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->email }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $mentor->number }}</td>
-                                            <td class="px-6 py-4">{{ $mentor->description }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <a href="{{ route('mentors.edit', $mentor) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                                <form action="{{ route('mentors.destroy', $mentor) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this mentor?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-900">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        @if($mentors->isEmpty())
-                            <p class="text-center text-gray-500 mt-4">No mentors found.</p>
-                        @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    @endif
+    </div>
+@endif
+
 </x-app-layout>
