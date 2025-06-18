@@ -56,116 +56,111 @@
 
 @push('scripts')
 <script>
-    const conversationId = {{ $allchast->id }};
+document.addEventListener('DOMContentLoaded', function () {
+    const conversationId = {{ $allchast->id }}; // Ensure $allchast is passed to the view
     const currentUserId = {{ Auth::id() }};
 
-    console.log('Chat Page: Attempting to connect to Echo for conversation ID:', conversationId);
+    console.log('Chat Page: DOMContentLoaded. Attempting to connect to Echo for conversation ID:', conversationId);
 
-    Echo.private('chat.' + conversationId)
-        .listen('\\App\\Events\\ChatMessageSent', (e) => {
-            console.log('Chat Page: ChatMessageSent event received:', e);
+    if (typeof Echo !== 'undefined') { // Check if Echo is defined
+        Echo.private('chat.' + conversationId)
+            .listen('\\App\\Events\\ChatMessageSent', (e) => {
+                console.log('Chat Page: ChatMessageSent event received:', e);
 
-            const chatMessagesContainer = document.getElementById('chat-messages-container');
-            if (!chatMessagesContainer) {
-                console.error('Chat messages container not found');
-                return;
-            }
+                const chatMessagesContainer = document.getElementById('chat-messages-container');
+                if (!chatMessagesContainer) {
+                    console.error('Chat messages container not found');
+                    return;
+                }
 
-            // Check if the message belongs to the current conversation (already in e.message)
-            // if (e.message.conversation_id != conversationId) { // This check might be redundant if channel is specific enough
-            //     console.log('Chat Page: Message from different conversation, ignoring.');
-            //     return;
-            // }
+                const messageElement = document.createElement('div');
+                // currentUserId is already defined in the script
+                const isMyMessage = e.user_id === currentUserId;
 
-            const messageElement = document.createElement('div');
-            // currentUserId is already defined in the script
-            const isMyMessage = e.user_id === currentUserId;
+                let messageClasses = ['p-3', 'rounded-lg', 'mb-2', 'max-w-md', 'shadow'];
+                let outerDivClasses = ['flex', 'mb-2'];
 
-            let messageClasses = ['p-3', 'rounded-lg', 'mb-2', 'max-w-md', 'shadow'];
-            let outerDivClasses = ['flex', 'mb-2'];
+                if (isMyMessage) {
+                    messageClasses.push('bg-blue-500', 'text-white');
+                    outerDivClasses.push('justify-end');
+                } else {
+                    messageClasses.push('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-100');
+                    outerDivClasses.push('justify-start');
+                }
 
-            if (isMyMessage) {
-                // Classes for messages sent by the current user
-                messageClasses.push('bg-blue-500', 'text-white');
-                outerDivClasses.push('justify-end');
-            } else {
-                // Classes for messages received from others
-                messageClasses.push('bg-gray-200', 'dark:bg-gray-600', 'text-gray-800', 'dark:text-gray-100');
-                outerDivClasses.push('justify-start');
-            }
+                messageElement.classList.add(...messageClasses);
+                // Use e.content, e.created_at directly from the broadcastWith payload
+                messageElement.innerHTML = `<p class="text-sm">${e.content}</p><small class="text-xs opacity-75 block text-right mt-1 ${isMyMessage ? 'text-blue-100' : 'text-gray-500 dark:text-gray-300'}">${new Date(e.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>`;
 
-            messageElement.classList.add(...messageClasses);
-            // Use e.content, e.created_at directly from the broadcastWith payload
-            messageElement.innerHTML = `<p class="text-sm">${e.content}</p><small class="text-xs opacity-75 block text-right mt-1 ${isMyMessage ? 'text-blue-100' : 'text-gray-500 dark:text-gray-300'}">${new Date(e.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>`;
+                const outerDiv = document.createElement('div');
+                outerDiv.classList.add(...outerDivClasses);
+                outerDiv.appendChild(messageElement);
 
-            const outerDiv = document.createElement('div');
-            outerDiv.classList.add(...outerDivClasses);
-            outerDiv.appendChild(messageElement);
+                chatMessagesContainer.appendChild(outerDiv);
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            })
+            .error((error) => {
+                console.error('Chat Page: Echo channel error:', error);
+            });
 
-            chatMessagesContainer.appendChild(outerDiv);
-            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-        })
-        .error((error) => {
-            console.error('Chat Page: Echo channel error:', error);
-        });
-
-    if (window.Echo && window.Echo.connector) {
-        window.Echo.connector.pusher.connection.bind('state_change', function(states) {
-            console.log("Chat Page: Pusher connection state from " + states.previous + " to " + states.current);
-        });
-        window.Echo.connector.pusher.connection.bind('connected', () => {
-            console.log('Chat Page: Pusher connected successfully!');
-        });
-        window.Echo.connector.pusher.connection.bind('error', (err) => {
-            console.error('Chat Page: Pusher connection error:', err);
-        });
+        // Pusher connection status logging
+        if (window.Echo && window.Echo.connector && window.Echo.connector.pusher) {
+            window.Echo.connector.pusher.connection.bind('state_change', function(states) {
+                console.log("Chat Page: Pusher connection state from " + states.previous + " to " + states.current);
+            });
+            window.Echo.connector.pusher.connection.bind('connected', () => {
+                console.log('Chat Page: Pusher connected successfully!');
+            });
+            window.Echo.connector.pusher.connection.bind('error', (err) => {
+                console.error('Chat Page: Pusher connection error:', err);
+            });
+        } else {
+            console.warn('Chat Page: Pusher connector not available for binding state changes immediately after Echo init.');
+        }
+    } else {
+        console.error('Chat Page: Echo is not defined after DOMContentLoaded!');
     }
 
+    // AJAX form submission
     const messageForm = document.getElementById('send-message-form');
     const messageInput = document.getElementById('message-input');
 
     if (messageForm && messageInput) {
-        messageForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const messageText = messageInput.value;
-            if (messageText.trim() === '') return;
+      messageForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const messageText = messageInput.value;
+          if (messageText.trim() === '') return;
 
-            messageInput.value = ''; // Clear input immediately
+          messageInput.value = ''; // Clear input immediately
 
-            fetch(this.action, { // this.action gets the form's action URL
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    chat_id: conversationId,
-                    user_id: currentUserId,
-                    message: messageText
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    // Attempt to parse error response for more details
-                    response.json().then(errData => {
-                        console.error('Error sending message - Server responded with:', errData);
-                    }).catch(() => {
-                        // Fallback if response is not JSON
-                        console.error('Error sending message - Server response not JSON:', response);
-                    });
-                    // Optionally, re-populate input if sending failed and there's no user feedback mechanism
-                    // messageInput.value = messageText;
-                }
-                // If successful, message will appear via Echo. No need to manually append here.
-            })
-            .catch(error => {
-                console.error('Fetch error sending message:', error);
-                // messageInput.value = messageText; // Re-populate on network error
-            });
-        });
+          fetch(this.action, { // this.action gets the form's action URL
+              method: 'POST',
+              headers: {
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                  chat_id: conversationId,
+                  user_id: currentUserId,
+                  message: messageText
+              })
+          })
+          .then(response => {
+              if (!response.ok) {
+                  response.json().then(errData => {
+                      console.error('Error sending message - Server responded with:', errData);
+                  }).catch(() => {
+                      console.error('Error sending message - Server response not JSON:', response);
+                  });
+              }
+          })
+          .catch(error => {
+              console.error('Fetch error sending message:', error);
+          });
+      });
     } else {
-        console.warn('Message form or input field not found for AJAX setup.');
+      console.warn('Chat Page: Message form or input field not found for AJAX setup.');
     }
 
     // Scroll to bottom on page load for existing messages
@@ -173,5 +168,6 @@
     if(chatMessagesContainer){
         chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
     }
+});
 </script>
 @endpush
