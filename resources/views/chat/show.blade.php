@@ -48,45 +48,58 @@
     const chatMessages = document.getElementById('chat-messages');
     const userId = {{ auth()->id() }};
     const conversationId = {{ $conversation->id }};
+    console.log('Attempting to connect to Echo for conversation ID:', conversationId);
 
-    // Function to append a message to the chat
-    function appendMessage(messageData) {
-        const messageWrapper = document.createElement('div');
-        const messageBubble = document.createElement('div');
-        const messageContent = document.createElement('p');
-        const messageTimestamp = document.createElement('small');
-
-        messageContent.textContent = messageData.content;
-        messageContent.classList.add('text-sm');
-
-        messageTimestamp.textContent = new Date(messageData.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        messageTimestamp.classList.add('text-xs', 'block', 'mt-1');
-
-        if (messageData.user_id === userId) {
-            messageWrapper.classList.add('flex', 'justify-end', 'mb-2');
-            messageBubble.classList.add('bg-blue-500', 'text-white', 'rounded-lg', 'py-2', 'px-4', 'max-w-xs', 'lg:max-w-md', 'shadow');
-            messageTimestamp.classList.add('opacity-75', 'text-right');
-        } else {
-            messageWrapper.classList.add('flex', 'justify-start', 'mb-2');
-            messageBubble.classList.add('bg-gray-200', 'text-gray-800', 'dark:bg-gray-700', 'dark:text-gray-200', 'rounded-lg', 'py-2', 'px-4', 'max-w-xs', 'lg:max-w-md', 'shadow');
-            messageTimestamp.classList.add('text-gray-500', 'dark:text-gray-400', 'text-left');
-        }
-
-        messageBubble.appendChild(messageContent);
-        messageBubble.appendChild(messageTimestamp);
-        messageWrapper.appendChild(messageBubble);
-        chatMessages.appendChild(messageWrapper);
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
-    }
-
-    // Listen for incoming messages
-    Echo.private(`chat.${conversationId}`)
+    Echo.private('chat.' + conversationId)
         .listen('\\App\\Events\\ChatMessageSent', (e) => {
+            console.log('ChatMessageSent event received:', e); // Log the entire event object
+
             // Check if the message belongs to the current conversation
-            if (e.message.conversation_id == conversationId) {
-                 appendMessage(e.message);
+            if (e.message.conversation_id != conversationId) {
+                return;
             }
+
+            const messageElement = document.createElement('div');
+
+            // Determine if the message is from the current user
+            const isMyMessage = e.message.user_id === userId;
+
+            // Apply Tailwind classes based on who sent the message
+            if (isMyMessage) {
+                messageElement.classList.add('flex', 'justify-end', 'mb-2');
+                messageElement.innerHTML = `
+                    <div class="bg-blue-500 text-white rounded-lg py-2 px-4 max-w-xs lg:max-w-md shadow">
+                        <p class="text-sm">${e.message.content}</p>
+                        <small class="text-xs text-blue-100 block text-right mt-1">${new Date(e.message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                    </div>`;
+            } else {
+                messageElement.classList.add('flex', 'justify-start', 'mb-2');
+                messageElement.innerHTML = `
+                    <div class="bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-lg py-2 px-4 max-w-xs lg:max-w-md shadow">
+                        <p class="text-sm">${e.message.content}</p>
+                        <small class="text-xs text-gray-500 dark:text-gray-400 block text-right mt-1">${new Date(e.message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                    </div>`;
+            }
+
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
+        })
+        .error((error) => {
+            console.error('Echo channel error:', error); // Log any errors during channel subscription
         });
+
+    // Also, add a general Pusher connection status log, if possible, or within Echo's features
+    if (window.Echo && window.Echo.connector) {
+        window.Echo.connector.pusher.connection.bind('state_change', function(states) {
+            console.log("Pusher connection state changed from " + states.previous + " to " + states.current);
+        });
+        window.Echo.connector.pusher.connection.bind('connected', () => {
+            console.log('Pusher connected successfully!');
+        });
+        window.Echo.connector.pusher.connection.bind('error', (err) => {
+            console.error('Pusher connection error:', err);
+        });
+    }
 
     // AJAX form submission for sending messages
     document.getElementById('chat-form').addEventListener('submit', function(e) {
