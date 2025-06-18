@@ -14,6 +14,7 @@ use App\Http\Controllers\PublicController;
 use App\Models\Events;
 use App\Models\Mentors;
 use App\Http\Controllers\MentorsController;
+use Illuminate\Support\Facades\Broadcast;
 
 Route::get('/', function () {
     return view('welcome');
