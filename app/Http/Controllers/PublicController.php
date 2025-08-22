@@ -54,7 +54,9 @@ class PublicController extends Controller
         $allchast = $chat;
         $allchats = Dialogue::where('chat_id', $allchast->id)->get();
 
-        return view('chat', compact('mentor', 'allchast', 'allchats'));
+        $chatPartnerName = $mentor->name; // The user is chatting with this mentor
+
+        return view('chat', compact('mentor', 'allchast', 'allchats', 'chatPartnerName'));
     }
 
     public function mentorChat(Chat $chat)
@@ -63,10 +65,16 @@ class PublicController extends Controller
             abort(403);
         }
 
-        $mentor = $chat->mentor;
+        // Eager load relationships if not already loaded, especially user for the name
+        $chat->loadMissing(['user', 'mentor']);
+
+        $mentor = $chat->mentor; // This is the Mentor model instance for the current mentor viewing
         $allchast = $chat;
         $allchats = Dialogue::where('chat_id', $allchast->id)->get();
 
-        return view('chat', compact('mentor', 'allchast', 'allchats'));
+        // The mentor is viewing the chat, so the partner is the user of the chat.
+        $chatPartnerName = $chat->user->name;
+
+        return view('chat', compact('mentor', 'allchast', 'allchats', 'chatPartnerName'));
     }
 }
