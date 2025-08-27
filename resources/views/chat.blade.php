@@ -5,6 +5,9 @@
         </h2>
     </x-slot>
 
+    <!-- Include notification service -->
+    <script src="{{ asset('js/notification-service.js') }}"></script>
+
     {{-- Main content that was previously in @section('content') now goes here directly --}}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -74,6 +77,17 @@
 
                     const messageElement = document.createElement('div');
                     const isMyMessage = e.user_id === currentUserId;
+
+                    // Show browser notification for messages from other users
+                    if (!isMyMessage && window.notificationService && window.notificationService.shouldShowNotification()) {
+                        const senderName = e.user ? e.user.name : 'Someone';
+                        const chatUrl = window.location.href;
+                        window.notificationService.showChatMessageNotification(
+                            e.content,
+                            senderName,
+                            chatUrl
+                        );
+                    }
 
                     let messageClasses = ['p-3', 'rounded-lg', 'mb-2', 'max-w-md', 'shadow'];
                     let outerDivClasses = ['flex', 'mb-2'];

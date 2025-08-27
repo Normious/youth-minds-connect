@@ -52,11 +52,10 @@ class ChatMessageSent implements ShouldBroadcastNow // Or ShouldBroadcast
             'chat_id' => $this->dialogue->chat_id,
             'user_id' => $this->dialogue->user_id,
             'created_at' => $this->dialogue->created_at->toIso8601String(),
-            // Example for including user data if relationship exists:
-            // 'user' => $this->dialogue->user ? [
-            //    'id' => $this->dialogue->user->id,
-            //    'name' => $this->dialogue->user->name,
-            // ] : null,
+            'user' => $this->dialogue->user ? [
+                'id' => $this->dialogue->user->id,
+                'name' => $this->dialogue->user->name,
+            ] : null,
         ];
     }
 

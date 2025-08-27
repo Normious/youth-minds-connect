@@ -11,4 +11,20 @@ class Dialogue extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    /**
+     * Get the user that sent the message.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the chat that this message belongs to.
+     */
+    public function chat()
+    {
+        return $this->belongsTo(Chat::class);
+    }
 }

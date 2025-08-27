@@ -6,6 +6,9 @@
     </h2>
 </x-slot>
 
+<!-- Include notification service -->
+<script src="{{ asset('js/notification-service.js') }}"></script>
+
 <div class="py-12">
     <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -63,6 +66,17 @@
 
             // Determine if the message is from the current user
             const isMyMessage = e.message.user_id === userId;
+
+            // Show browser notification for messages from other users
+            if (!isMyMessage && window.notificationService && window.notificationService.shouldShowNotification()) {
+                const senderName = e.message.user ? e.message.user.name : 'Someone';
+                const chatUrl = window.location.href;
+                window.notificationService.showChatMessageNotification(
+                    e.message.content,
+                    senderName,
+                    chatUrl
+                );
+            }
 
             // Apply Tailwind classes based on who sent the message
             if (isMyMessage) {

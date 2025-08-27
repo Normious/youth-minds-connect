@@ -4,6 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @auth
+            <meta name="user-id" content="{{ auth()->id() }}">
+            <meta name="authenticated" content="true">
+        @endauth
 
         <title>{{ config('app.name', 'Youth Minds Connect') }}</title>
 
@@ -15,6 +19,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Global notification handler -->
+        @auth
+            <script src="{{ asset('js/global-notifications.js') }}"></script>
+        @endauth
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -34,6 +43,10 @@
                 {{ $slot }}
             </main>
         </div>
+        
+        <!-- Notification Banner -->
+        @include('components.notification-banner')
+        
         @stack('scripts')
     </body>
 </html>
